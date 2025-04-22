@@ -6,25 +6,35 @@
 {% endblock %}
 
 {% block body %}
-<a class="btn btn-primary" href="{{ path('event_create') }}" >Créer un évènement</a>
-	<div class="row">
+	<a class="btn btn-primary" href="{{ path('event_create') }}">Créer un évènement</a>
+	<div class="row mt-5">
 		{% for event in events %}
 			<div class="col-lg-3">
-				<a href="{{path('event_show', { id: event.id }) }}">{{ event.name }}</a>
-				<p>{{'Du ' ~ event.startAt.format('d/m/Y à H\\hi') ~ ' au ' ~ event.startAt.format('d/m/Y à H\\hi') }}</p>
+				<div class="card shadow">
+					<div class="card-body">
+						<a href="{{path('event_show', { id: event.id }) }}">{{ event.name }}</a>
+						<p>{{'Du ' ~ event.startAt.format('d/m/Y à H\\hi') ~ ' au ' ~ event.startAt.format('d/m/Y à H\\hi') }}</p>
 
-				{# {{ dump(event.startAt) }}
-				{{ dump(date()) }}
-				{{ dump(event.startAt <= date() and event.endAt >= date() ) }} #}
+						{% if event.startAt <= date() and event.endAt >= date() %}
+							<span class="badge bg-warning text-dark">En cours</span>
+						{% elseif event.endAt < date() %}
+							<span class="badge bg-danger">Passé</span>
+						{% else %}
+							<span class="badge bg-success">Futur</span>
+						{% endif %}
 
 
-				{% if event.startAt <= date() and event.endAt >= date() %}
-					<span class="badge bg-warning text-dark">En cours</span>
-				{% elseif event.endAt < date() %}
-					<span class="badge bg-danger">Passé</span>
-				{% else %}
-					<span class="badge bg-success">Futur</span>
-				{% endif %}
+						<span>{{ event.price | format_currency('EUR', locale='fr') }}</span>
+						{% if event.place %}
+							<span>à
+								{{ event.place.city }}</span>
+						{% endif %}
+
+						<div class="mt-3">
+							<a class="btn btn-primary" href="{{path('event_show', { id: event.id }) }}">Voir</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		{% endfor %}
 	</div>

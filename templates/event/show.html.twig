@@ -1,9 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ event.name }} - {{ parent() }} {% endblock %}
+{% block title %}
+	{{ event.name }}
+	-
+	{{ parent() }}
+{% endblock %}
 
 {% block body %}
 	<h1>Evenement
 		{{ event.id }}</h1>
 	<h2>{{ event.name }}</h2>
+
+	<div class="row">
+
+		<div class="col-lg-6"></div>
+		<div class="col-lg-6">
+			<div class="card shadow">
+				<div class="card-body">
+					<h1>{{ event.name }}
+						({{ event.id }})</h1>
+					<p>{{'Du ' ~ event.startAt.format('d/m/Y à H\\hi') ~ ' au ' ~ event.startAt.format('d/m/Y à H\\hi') }}</p>
+
+					{% if event.startAt <= date() and event.endAt >= date() %}
+						<span class="badge bg-warning text-dark">En cours</span>
+					{% elseif event.endAt < date() %}
+						<span class="badge bg-danger">Passé</span>
+					{% else %}
+						<span class="badge bg-success">Futur</span>
+					{% endif %}
+
+
+					<span>{{ event.price | format_currency('EUR', locale='fr') }}</span>
+
+					{% if event.place %}
+						<span>à {{ event.place.city }}</span>
+					{% endif %}
+
+					<ul class="mt-4">
+						{% for category in event.categories %}
+							<li>{{ category.name }}</li>
+
+						{% endfor %}
+					</ul>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
 {% endblock %}

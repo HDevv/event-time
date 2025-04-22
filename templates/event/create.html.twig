@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un événement - {{ parent() }}{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.price) }}
+   
+
+    <div class="row">
+        <div class="col-lg-6">
+            {{ form_row(form.startAt) }}
+        </div>
+        <div class="col-lg-6">
+            {{ form_row(form.endAt) }}
+        </div>
+    </div>
+    
+    {{ form_widget(form) }}
+
+<button class="btn btn-primary" formnovalidate>Ajouter</button>
+{{ form_end(form) }}
+{% endblock %}
