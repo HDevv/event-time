@@ -1,5 +1,9 @@
-<body>
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.name }} - {{ parent() }} {% endblock %}
+
+{% block body %}
 	<h1>Evenement
-		{{ id }}</h1>
-	<p>{{ name }}</p>
-</body>
+		{{ event.id }}</h1>
+	<h2>{{ event.name }}</h2>
+{% endblock %}

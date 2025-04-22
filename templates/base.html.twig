@@ -42,6 +42,14 @@
 			</div>
 		</nav>
 
-		{% block body %}{% endblock %}
+		<div class="container py-5">
+			{% block body %}{% endblock %}
+		</div>
+		
+		<footer>
+		<div class="container">
+			<p class="text-center">&copy Copyright {{ 'now'|date('Y') }} - Event Time</p>
+		</div>
+		</footer>
 	</body>
 </html>
