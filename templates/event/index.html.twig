@@ -7,9 +7,9 @@
 
 {% block body %}
 <a class="btn btn-primary" href="{{ path('event_create') }}" >Créer un évènement</a>
-	<ul>
+	<div class="row">
 		{% for event in events %}
-			<li>
+			<div class="col-lg-3">
 				<a href="{{path('event_show', { id: event.id }) }}">{{ event.name }}</a>
 				<p>{{'Du ' ~ event.startAt.format('d/m/Y à H\\hi') ~ ' au ' ~ event.startAt.format('d/m/Y à H\\hi') }}</p>
 
@@ -25,8 +25,8 @@
 				{% else %}
 					<span class="badge bg-success">Futur</span>
 				{% endif %}
-			</li>
+			</div>
 		{% endfor %}
-	</ul>
+	</div>
 
 {% endblock %}

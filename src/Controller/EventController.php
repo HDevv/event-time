@@ -32,15 +32,16 @@ class EventController extends AbstractController
 
 
     #[Route('/evenements/{id}', name: 'event_show', requirements: ['id' => '\d+'])]
-    public function show(EventService $eventService, $id): Response
+    public function show(EventService $eventService, ManagerRegistry $doctrine, Event $event): Response
     {
-        $event = $eventService->find($id);
+        // $event = $eventService->find($id);
+        // $event = $doctrine->getRepository(Event::class)->find($id);
 
         dump($event);
 
-        if (! $event) {
-            throw $this->createNotFoundException();
-        }
+        // if (! $event) {
+        //     throw $this->createNotFoundException();
+        // }
 
         return $this->render('event/show.html.twig', [
             'event' => $event,
