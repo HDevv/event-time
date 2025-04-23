@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
@@ -28,7 +28,7 @@ class Event
     private ?float $price = null;
 
     #[Assert\NotBlank]
-    #[Assert\GreaterThan('today')]
+    #[Assert\GreaterThan('today', groups: ['create'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $startAt = null;
 
@@ -42,6 +42,12 @@ class Event
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'events')]
     private Collection $categories;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $poster;
+
+    #[Assert\Image(maxSize: "1024k")]
+    private $posterFile;
 
     public function __construct()
     {
@@ -133,6 +139,29 @@ class Event
     public function removeCategory(Category $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getPoster(): ?string
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(?string $poster): static
+    {
+        $this->poster = $poster;
+
+        return $this;
+    }
+    public function getPosterFile(): ?UploadedFile
+    {
+        return $this->posterFile;
+    }
+
+    public function setPosterFile(?UploadedFile $posterFile): self
+    {
+        $this->posterFile = $posterFile;
 
         return $this;
     }

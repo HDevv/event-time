@@ -6,6 +6,7 @@ use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,17 +15,31 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('price', MoneyType::class)
-            ->add('startAt', null, [
+            ->add('name', null, ['label' => 'Nom'])
+            ->add('price', MoneyType::class, ['label' => 'Prix'])
+            ->add('startAt', DateTimeType::class, [
                 'widget' => 'single_text',
+                'label' => 'Début',
             ])
-            ->add('endAt', null, [
+            ->add('endAt', DateTimeType::class, [
                 'widget' => 'single_text',
+                'label' => 'Fin',
             ])
+            
             // ->add('poster')
-            // ->add('place')
-            // ->add('categories')
+            ->add('place', null, [
+                'choice_label' => 'city',
+                'label' => 'Ville',
+            ])
+            ->add('categories', null, [
+                'choice_label' => 'name',
+                'expanded' => true,
+                'label' => 'Catégories',
+            ])
+            ->add('posterFile', FileType::class, [
+                'label' => 'Image'
+            ])
+            
         ;
     }
 

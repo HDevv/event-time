@@ -38,18 +38,28 @@
 						<a class="nav-link active" href="{{ path('app_home') }}">Accueil</a>
 						<a class="nav-link" href="{{ path('event_list') }}">Evenements</a>
 					</div>
+
+					<div class="navbar-nav ms-auto">
+						<form methode="get" action="{{ path('event_list') }}">
+							<div class="input-group">
+								<input type="text" name="search" placeholder="Recherche..." class="form-control" value="{{ app.request.get('search') }}">
+								<button class="btn btn-success">Go</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</nav>
 
-		<div class="container py-5">
-			{% block body %}{% endblock %}
-		</div>
-		
-		<footer>
-		<div class="container">
-			<p class="text-center">&copy Copyright {{ 'now'|date('Y') }} - Event Time</p>
-		</div>
-		</footer>
-	</body>
-</html>
+		<div class="container py-5"> {% block body %}{% endblock %}
+			</div>
+
+			<footer>
+				<div class="container">
+					<p class="text-center">&copy Copyright
+						{{ 'now'|date('Y') }}
+						- Event Time</p>
+				</div>
+			</footer>
+		</body>
+	</html>

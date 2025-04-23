@@ -16,6 +16,8 @@
 		<div class="col-lg-6"></div>
 		<div class="col-lg-6">
 			<div class="card shadow">
+			{% if event.poster %}<img class="img-fluid" alt="{{ event.name }}" src="{{asset('images/events/' ~ event.poster)}}">
+					{% endif %}
 				<div class="card-body">
 					<h1>{{ event.name }}
 						({{ event.id }})</h1>
