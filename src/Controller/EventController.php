@@ -86,6 +86,11 @@ class EventController extends AbstractController
 
                 $event->setPoster($filename);
             }
+
+            $event->setUser($this->getUser());
+
+
+
             $em = $doctrine->getManager();
 
             $em->persist($event);

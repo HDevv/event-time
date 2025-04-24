@@ -39,6 +39,11 @@
 								{{ event.place.city }}</span>
 						{% endif %}
 
+						{% if event.user %}
+							<p>par
+								{{ event.user.email }}</p>
+						{% endif %}
+
 						<div class="mt-4">
 							<a class="btn btn-primary" href="{{path('event_show', { id: event.id }) }}">Voir</a>
 							{% if is_granted('ROLE_ADMIN') %}

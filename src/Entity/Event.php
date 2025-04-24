@@ -49,6 +49,9 @@ class Event
     #[Assert\Image(maxSize: "1024k")]
     private $posterFile;
 
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -162,6 +165,18 @@ class Event
     public function setPosterFile(?UploadedFile $posterFile): self
     {
         $this->posterFile = $posterFile;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
