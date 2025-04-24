@@ -23,41 +23,44 @@ class EventRepository extends ServiceEntityRepository
 
 
 
-    public function search($query) {
+    public function search($query)
+    {
         $qb = $this->createQueryBuilder('e');
-        
+
 
         if (!empty($query)) {
-            $qb->where('e.name LIKE :name')->setParameter('name', '%'.$query.'%');
+            $qb->where('e.name LIKE :name')
+                ->setParameter('name', '%' . $query . '%');
         }
-        
-        
-        return $qb->getQuery()->getResult();
 
+        $qb->orderBy('e.startAt', 'desc');
+
+
+        return $qb->getQuery()->getResult();
     }
 
-//    /**
-//     * @return Event[] Returns an array of Event objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Event[] Returns an array of Event objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('e')
+    //            ->andWhere('e.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('e.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Event
+    //    {
+    //        return $this->createQueryBuilder('e')
+    //            ->andWhere('e.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

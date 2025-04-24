@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Form\EventType;
 use App\Service\EventService;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,6 +50,7 @@ class EventController extends AbstractController
 
 
     #[Route('/evenements/{id}', name: 'event_show', requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_USER')]
     public function show(int $id, ManagerRegistry $doctrine): Response
     {
         $event = $doctrine->getRepository(Event::class)->find($id);
@@ -65,6 +67,8 @@ class EventController extends AbstractController
 
 
     #[Route('/evenements/creer', name: 'event_create')]
+    #[IsGranted('ROLE_ADMIN')]
+
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
 
@@ -87,6 +91,8 @@ class EventController extends AbstractController
             $em->persist($event);
             $em->flush();
 
+            $this->addFlash('success', 'L\'événement '.$event->getName().' a bien été créé');
+
             return $this->redirectToRoute(('event_list'));
         }
 
@@ -97,6 +103,7 @@ class EventController extends AbstractController
     }
 
     #[Route('/evenements/{id}/modifier', name: 'event_edit')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Event $event, Request $request, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(EventType::class, $event);
@@ -118,6 +125,9 @@ class EventController extends AbstractController
             $em = $doctrine->getManager();
             $em->flush();
 
+            $this->addFlash('success', 'L\'événement '.$event->getName().' a bien été modifié');
+
+
             return $this->redirectToRoute('event_list');
         }
 
@@ -128,6 +138,7 @@ class EventController extends AbstractController
     }
 
     #[Route('/evenements/{id}/supprimer', name: 'event_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, ManagerRegistry $doctrine, Event $event): Response
     {
         $submittedToken = $request->request->get('_token');
@@ -139,6 +150,9 @@ class EventController extends AbstractController
             $em = $doctrine->getManager();
             $em->remove($event);
             $em->flush();
+
+            $this->addFlash('success', 'L\'événement '.$event->getName().' a bien été supprimé');
+
         }
 
         return $this->redirectToRoute('event_list');
